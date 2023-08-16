@@ -1,23 +1,16 @@
 package main
 
 import (
-    "fmt"
     "net/http"
+    "fmt"
 )
 
-type CounterHandler struct {
-    counter int
+func helloWorldPage(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hello World!")
 }
 
-func (ct *CounterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-    fmt.Println(ct.counter)
-    ct.counter++
-    fmt.Fprintln(w, "Counter:", ct.counter)
-}
 
 func main() {
+    http.HandleFunc("/", helloWorldPage)
 
-    th := &CounterHandler{counter: 0}
-    http.Handle("/count", th)
-    http.ListenAndServe(":8080", nil)
 }
